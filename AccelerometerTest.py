@@ -21,9 +21,9 @@ while True:
     acc_dir = (acc.x / acc_mag, acc.y / acc_mag, acc.z / acc_mag)
 
     # Calculate acc projected to each axis plane
-    acc_yz = np.linalg.norm(acc_dir - math.dot(acc_dir, (normal_x)) * normal_x)
-    acc_xz = np.linalg.norm(acc_dir - math.dot(acc_dir, (normal_y)) * normal_y)
-    acc_xy = np.linalg.norm(acc_dir - math.dot(acc_dir, (normal_z)) * normal_z)
+    acc_yz = np.linalg.norm(acc_dir - np.dot(acc_dir, (normal_x)) * normal_x)
+    acc_xz = np.linalg.norm(acc_dir - np.dot(acc_dir, (normal_y)) * normal_y)
+    acc_xy = np.linalg.norm(acc_dir - np.dot(acc_dir, (normal_z)) * normal_z)
 
     # Calculate angle from each axis
     angle_from_x = math.acos(- acc_yz[0]) * 180 / math.pi
