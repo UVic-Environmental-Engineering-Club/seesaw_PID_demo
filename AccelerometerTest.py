@@ -4,6 +4,7 @@
 import bluerobotics_navigator as brn
 import numpy as np
 import math
+import time
 
 brn.init()
 
@@ -40,3 +41,5 @@ while True:
     # print(f"Acceleration: ({acc.x:10.5f}, {acc.y:10.5f}, {acc.z:10.5f}), angle: {angle:10.5f}")
     print(f"acc_yz: {acc_yz:10.3f} acc_xz: {acc_xz:10.3f} acc_xy {acc_xy:10.3f}")
     print(f"angle_from_x: {angle_from_x:10.3f} angle_from_y: {angle_from_y:10.3f} angle_from_z: {angle_from_z:10.3f}")
+
+    time.sleep(0.5)
