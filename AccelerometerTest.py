@@ -26,9 +26,9 @@ while True:
     acc_xy = np.linalg.norm(acc_dir - np.dot(acc_dir, normal_z) * normal_z)
 
     # Calculate angle from each axis
-    angle_from_x = math.acos(- acc_yz[0]) * 180 / math.pi
-    angle_from_y = math.acos(- acc_xz[1]) * 180 / math.pi
-    angle_from_z = math.acos(- acc_xy[2]) * 180 / math.pi
+    angle_from_x = math.acos(- acc_yz) * 180 / math.pi
+    angle_from_y = math.acos(- acc_xz) * 180 / math.pi
+    angle_from_z = math.acos(- acc_xy) * 180 / math.pi
 
     # Use the dot product angle formula to get the angle (in radians) of acceleration off of (0, 0, 1)
     # (what it would be if the NFC was level)
