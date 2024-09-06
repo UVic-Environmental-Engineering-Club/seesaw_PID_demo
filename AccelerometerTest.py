@@ -2,7 +2,7 @@
 #! /bin/python3
 
 import bluerobotics_navigator as brn
-import numpy as np
+import math as np
 
 brn.init()
 
