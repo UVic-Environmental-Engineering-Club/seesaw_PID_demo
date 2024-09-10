@@ -36,6 +36,6 @@ def read_and_print_angles():
     # TODO: Calculate angles off of a known axis, e.g. North,
     # TODO: or something set when the script is started
 
-    print(f"Acceleration: ({acc.x:10.5f}, {acc.y:10.5f}, {acc.z:10.5f})")
+    print(f"Acceleration: ({acc[0]:10.5f}, {acc[1]:10.5f}, {acc[2]:10.5f})")
     # print(f"acc_yz: {acc_yz:10.3f} acc_xz: {acc_xz:10.3f} acc_xy {acc_xy:10.3f}")
     print(f"pitch: {pitch:10.3f}, roll: {roll:10.3f}")
