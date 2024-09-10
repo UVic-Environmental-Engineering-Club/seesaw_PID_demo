@@ -13,7 +13,11 @@ while True:
 
     # Normalize the acceleration vector
     acc_mag = (acc.x * acc.x + acc.y * acc.y + acc.z * acc.z) ** 0.5
-    acc_dir = (acc.x / acc_mag, acc.y / acc_mag, acc.z / acc_mag)
+    acc_dir = (0, 0, 0)
+    if (acc_mag > 0.0001):
+        acc_dir = (acc.x / acc_mag, acc.y / acc_mag, acc.z / acc_mag)
+
+    
 
     # Use the dot product angle formula to get the angle (in radians) of acceleration off of (0, 0, 1)
     # (what it would be if the NFC was level)
