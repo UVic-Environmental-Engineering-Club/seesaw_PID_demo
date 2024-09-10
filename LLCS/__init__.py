@@ -1,5 +1,5 @@
 import bluerobotics_navigator as navigator
-import sensors
+from . import sensors
 
 class LLCS:
     def __init__(self):
