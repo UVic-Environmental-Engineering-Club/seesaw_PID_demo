@@ -25,8 +25,8 @@ def read_and_print_angles():
     # acc_xy = np.linalg.norm(acc_dir - np.dot(acc_dir, normal_z) * normal_z)
 
     # Calculate angle from each axis
-    pitch = np.atan2(-acc_dir[1], acc_dir[2]) # math.acos(- acc_yz) * 180 / math.pi
-    roll = np.atan2(acc_dir[0], acc_dir[2]) # math.acos(- acc_xz) * 180 / math.pi
+    pitch = math.atan2(-acc_dir[1], acc_dir[2]) # math.acos(- acc_yz) * 180 / math.pi
+    roll = math.atan2(acc_dir[0], acc_dir[2]) # math.acos(- acc_xz) * 180 / math.pi
     # angle_from_z = np.atan2(acc_dir[], acc_dir[]) # math.acos(- acc_xy) * 180 / math.pi
 
     # Use the dot product angle formula to get the angle (in radians) of acceleration off of (0, 0, 1)
@@ -38,4 +38,4 @@ def read_and_print_angles():
 
     print(f"Acceleration: ({acc.x:10.5f}, {acc.y:10.5f}, {acc.z:10.5f})")
     # print(f"acc_yz: {acc_yz:10.3f} acc_xz: {acc_xz:10.3f} acc_xy {acc_xy:10.3f}")
-    print(f"pitch: {pitch:10.3f} roll: {roll:10.3f}")
+    print(f"pitch: {pitch:10.3f}, roll: {roll:10.3f}")
