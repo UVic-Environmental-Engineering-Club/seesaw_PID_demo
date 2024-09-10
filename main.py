@@ -13,7 +13,9 @@ def main():
     hlcs = HLCS.HLCS()
 
     llcs.calibrate()
-    llcs.read_and_print_angles()
+    while True:
+        llcs.read_and_print_angles()
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     main()
