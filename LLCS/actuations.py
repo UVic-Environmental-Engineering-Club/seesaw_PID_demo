@@ -8,12 +8,12 @@ def actuation(input, neutranInput, forwardMaxInput, backwardMaxInput):
     # navigator.set_pwm_freq_hz(1000)
     navigator.set_pwm_channel_value(PwmChannel.Ch1, input)
     if input > neutranInput:
-        navigator.set_neopixel([[int((input - neutranInput) / (forwardMaxInput - neutranInput)), 0, 0]])
+        navigator.set_neopixel([[int((input - neutranInput) / (forwardMaxInput - neutranInput) * 255), 0, 0]])
     elif input == neutranInput:
         navigator.set_neopixel([[0, 0, 0]])
     else:
         print(f"input: {input}, neutranInput: {neutranInput}, forwardMaxInput: {forwardMaxInput}, backwardMaxInput: {backwardMaxInput}")
-        navigator.set_neopixel([[0, int((input - backwardMaxInput) / (neutranInput - backwardMaxInput)), 0]])
+        navigator.set_neopixel([[0, int((input - backwardMaxInput) / (neutranInput - backwardMaxInput) * 255), 0]])
     navigator.set_pwm_enable(True)
 
 def set_pwm_freq_hz(freq):

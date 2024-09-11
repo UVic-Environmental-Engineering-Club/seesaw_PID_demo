@@ -29,9 +29,9 @@ def main():
         elif (pwm_value - pwm_walk <= pwm_value_max_backword_anticlockwise):
             pwm_toggle = True
         if pwm_toggle:
-            pwm_value -= pwm_walk
-        else:
             pwm_value += pwm_walk
+        else:
+            pwm_value -= pwm_walk
         time.sleep(0.5)
 
 
