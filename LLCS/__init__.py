@@ -17,6 +17,9 @@ class LLCS:
     def read_and_print_angles(self):
         sensors.read_and_print_angles()
 
+    def get_pitch(self) -> float:
+        return sensors.get_pitch()
+
     def actuation(self, input, neutranInput, forwardMaxInput, backwardMaxInput):
         actuations.actuation(input, neutranInput, forwardMaxInput, backwardMaxInput)
 

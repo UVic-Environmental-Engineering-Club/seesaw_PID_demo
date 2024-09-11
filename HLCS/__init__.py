@@ -1,3 +1,5 @@
+from . import pid
+
 class HLCS:
     def __init__(self):
         self.target = 0

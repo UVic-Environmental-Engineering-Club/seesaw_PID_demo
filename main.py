@@ -12,6 +12,7 @@ def main():
     print("Hello World")
     llcs = LLCS.LLCS()
     hlcs = HLCS.HLCS()
+    pid_controller = HLCS.PIDController()
 
     llcs.calibrate()
     pwm_value_neutral = 326
@@ -22,6 +23,10 @@ def main():
     pwm_toggle = True
 
     for i in range(45):
+
+        pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
+        print(f"PID output: {pid_output}")
+
         llcs.read_and_print_angles()
         llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
         if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
