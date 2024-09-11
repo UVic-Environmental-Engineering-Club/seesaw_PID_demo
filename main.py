@@ -20,7 +20,8 @@ def main():
     pwm_value_max_backword_anticlockwise = 237
     pwm_value = pwm_value_neutral
     pwm_toggle = True
-    while True:
+
+    for i in range(10):
         llcs.read_and_print_angles()
         llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
         if (pwm_value >= pwm_value_max_forward_clockwise):
@@ -28,9 +29,9 @@ def main():
         elif (pwm_value <= pwm_value_max_backword_anticlockwise):
             pwm_toggle = True
         if pwm_toggle:
-            pwm_value -= 25
+            pwm_value -= 40
         else:
-            pwm_value += 25
+            pwm_value += 40
         time.sleep(0.5)
 
 
