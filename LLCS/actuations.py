@@ -2,6 +2,7 @@ import bluerobotics_navigator as navigator
 from bluerobotics_navigator import PwmChannel
 
 if __name__ == "__main__":
+    print("This script is not meant to be run directly")
 
 def actuation(input, neutranInput, forwardMaxInput, backwardMaxInput):
     # navigator.set_pwm_freq_hz(1000)
