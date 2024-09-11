@@ -17,5 +17,5 @@ class LLCS:
     def read_and_print_angles(self):
         sensors.read_and_print_angles()
 
-    def actuation(self, input):
-        actuations.actuation(input)
+    def actuation(self, input, neutranInput, forwardMaxInput, backwardMaxInput):
+        actuations.actuation(input, neutranInput, forwardMaxInput, backwardMaxInput)
