@@ -26,17 +26,18 @@ def main():
 
         pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
         print(f"PID output: {pid_output}")
+        pwm_value = int(pwm_value + pid_output)
 
         llcs.read_and_print_angles()
         llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
-        if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
-            pwm_toggle = False
-        elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
-            pwm_toggle = True
-        if pwm_toggle:
-            pwm_value += pwm_step
-        else:
-            pwm_value -= pwm_step
+        #if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
+        #    pwm_toggle = False
+        #elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
+        #    pwm_toggle = True
+        #if pwm_toggle:
+        #    pwm_value += pwm_step
+        #else:
+        #    pwm_value -= pwm_step
         time.sleep(0.2)
 
     llcs.onShutdown(pwm_value_neutral)
