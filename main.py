@@ -18,21 +18,21 @@ def main():
     pwm_value_max_forward_clockwise = 437
     pwm_value_max_backword_anticlockwise = 237
     pwm_value = pwm_value_neutral
-    pwm_walk = 40
+    pwm_step = 20
     pwm_toggle = True
 
-    for i in range(20):
+    for i in range(30):
         llcs.read_and_print_angles()
         llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
-        if (pwm_value + pwm_walk >= pwm_value_max_forward_clockwise):
+        if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
             pwm_toggle = False
-        elif (pwm_value - pwm_walk <= pwm_value_max_backword_anticlockwise):
+        elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
             pwm_toggle = True
         if pwm_toggle:
-            pwm_value += pwm_walk
+            pwm_value += pwm_step
         else:
-            pwm_value -= pwm_walk
-        time.sleep(0.2)
+            pwm_value -= pwm_step
+        time.sleep(0.1)
 
 
 if __name__ == "__main__":
