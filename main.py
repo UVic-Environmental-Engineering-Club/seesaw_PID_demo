@@ -32,7 +32,7 @@ def main():
             pwm_value += pwm_step
         else:
             pwm_value -= pwm_step
-        time.sleep(0.1)
+        time.sleep(0.2)
 
     llcs.onShutdown(pwm_value_neutral)
 
