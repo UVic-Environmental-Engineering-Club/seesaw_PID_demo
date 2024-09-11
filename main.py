@@ -34,6 +34,8 @@ def main():
             pwm_value -= pwm_step
         time.sleep(0.1)
 
+    llcs.onShutdown(pwm_value_neutral)
+
 
 if __name__ == "__main__":
     main()

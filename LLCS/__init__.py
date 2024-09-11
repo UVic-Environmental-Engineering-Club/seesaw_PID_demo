@@ -19,3 +19,8 @@ class LLCS:
 
     def actuation(self, input, neutranInput, forwardMaxInput, backwardMaxInput):
         actuations.actuation(input, neutranInput, forwardMaxInput, backwardMaxInput)
+
+    def onShutdown(self, neutralInput):
+        actuations.actuation(neutralInput, neutralInput, neutralInput, neutralInput)
+        navigator.set_pwm_enable(False)
+        print("LLCS shutdown")
