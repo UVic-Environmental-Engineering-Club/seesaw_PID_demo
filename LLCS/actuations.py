@@ -12,7 +12,6 @@ def actuation(input, neutranInput, forwardMaxInput, backwardMaxInput):
     elif input == neutranInput:
         navigator.set_neopixel([[0, 0, 0]])
     else:
-        print(f"input: {input}, neutranInput: {neutranInput}, forwardMaxInput: {forwardMaxInput}, backwardMaxInput: {backwardMaxInput}")
         navigator.set_neopixel([[0, int((input - backwardMaxInput) / (neutranInput - backwardMaxInput) * 255), 0]])
     navigator.set_pwm_enable(True)
 
