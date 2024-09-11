@@ -12,7 +12,7 @@ def main():
     print("Hello World")
     llcs = LLCS.LLCS()
     hlcs = HLCS.HLCS()
-    pid_controller = HLCS.PIDController()
+    pid_controller = HLCS.pid.PIDController()
 
     llcs.calibrate()
     pwm_value_neutral = 326
