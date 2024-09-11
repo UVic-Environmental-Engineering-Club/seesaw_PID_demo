@@ -14,19 +14,23 @@ def main():
     hlcs = HLCS.HLCS()
 
     llcs.calibrate()
-    pwm_hz = 400
-    pwm_toggle = False
+    llcs.set
+    pwm_value_neutral = 326
+    pwm_value_max_forward_clockwise = 437
+    pwm_value_max_backword_anticlockwise = 237
+    pwm_value = pwm_value_neutral
+    pwm_toggle = True
     while True:
         llcs.read_and_print_angles()
-        llcs.actuation(pwm_hz)
-        if (pwm_hz >= 2000):
-            pwm_toggle = True
-        elif (pwm_hz <= 400):
+        llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
+        if (pwm_value >= pwm_value_max_forward_clockwise):
             pwm_toggle = False
+        elif (pwm_value <= pwm_value_max_backword_anticlockwise):
+            pwm_toggle = True
         if pwm_toggle:
-            pwm_hz -= 50
+            pwm_value -= 25
         else:
-            pwm_hz += 50
+            pwm_value += 25
         time.sleep(0.5)
 
 

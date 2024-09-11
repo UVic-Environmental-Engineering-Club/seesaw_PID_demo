@@ -8,6 +8,7 @@ class LLCS:
         navigator.init()
 
     def initialize(self):
+        actuations.set_pwm_freq_hz(54.28)
         print("LLCS initialized")
 
     def calibrate(self):
