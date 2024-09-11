@@ -13,10 +13,10 @@ def main():
     print("Hello World")
     llcs = LLCS.LLCS()
     hlcs = HLCS.HLCS()
-    pid_kp = input("Enter the value of Kp: ")
-    pid_ki = input("Enter the value of Ki: ")
-    pid_kd = input("Enter the value of Kd: ")
-    pid_controller = HLCS.pid.PIDController(pid_kp, pid_ki, pid_kd)
+    pid_kp = float(input("Enter the value of Kp: "))
+    pid_ki = float(input("Enter the value of Ki: "))
+    pid_kd = float(input("Enter the value of Kd: "))
+    pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd)
 
     llcs.calibrate()
     pwm_value_neutral = 365
