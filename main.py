@@ -14,7 +14,6 @@ def main():
     hlcs = HLCS.HLCS()
 
     llcs.calibrate()
-    llcs.set
     pwm_value_neutral = 326
     pwm_value_max_forward_clockwise = 437
     pwm_value_max_backword_anticlockwise = 237
