@@ -22,6 +22,17 @@ def clamp_mag(val: float, max_mag: float) -> float:
 
 
 
+def lerp(val: float, input_min: float, input_max: float, output_min: float, output_max: float) -> float:
+
+    return output_min + ((val - input_min) / (input_max - input_min)) * (output_max - output_min)
+
+
+def clamp(val: float, min_output: float, max_output: float) -> float:
+
+    return min(max_output, max(min_output, val))
+
+
+
 class PIDController:
     """
     Simple PID controller implementation.

@@ -1,6 +1,7 @@
 import bluerobotics_navigator as navigator
 from . import sensors
-from . import actuations
+from . import actuators
+import HLCS
 
 class LLCS:
     def __init__(self):
@@ -8,7 +9,8 @@ class LLCS:
         navigator.init()
 
     def initialize(self):
-        actuations.set_pwm_freq_hz(54.28)
+        self.motor = actuators.Motor()
+        self.motor.start_up()
         print("LLCS initialized")
 
     def calibrate(self):
@@ -20,10 +22,9 @@ class LLCS:
     def get_pitch(self) -> float:
         return sensors.get_pitch()
 
-    def actuation(self, input, neutranInput, forwardMaxInput, backwardMaxInput):
-        actuations.actuation(input, neutranInput, forwardMaxInput, backwardMaxInput)
+    def actuation(self, input):
+        self.motor.actuation(HLCS.pid.clamp(input, -1, 1))
 
-    def onShutdown(self, neutralInput):
-        actuations.actuation(neutralInput, neutralInput, neutralInput, neutralInput)
-        navigator.set_pwm_enable(False)
+    def onShutdown(self):
+        self.motor.shut_down()
         print("LLCS shutdown")
