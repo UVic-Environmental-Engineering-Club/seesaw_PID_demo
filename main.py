@@ -29,7 +29,7 @@ def main():
         pwm_value = int(pwm_value_neutral + pid_output)
 
         llcs.read_and_print_angles()
-        llcs.actuation(pwm_value, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
+        llcs.actuation(pwm_value_neutral, pwm_value_neutral, pwm_value_max_forward_clockwise, pwm_value_max_backword_anticlockwise)
         #if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
         #    pwm_toggle = False
         #elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
