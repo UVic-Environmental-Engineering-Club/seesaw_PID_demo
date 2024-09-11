@@ -15,7 +15,7 @@ def main():
     pid_controller = HLCS.pid.PIDController()
 
     llcs.calibrate()
-    pwm_value_neutral = 326
+    pwm_value_neutral = 365
     pwm_value_max_forward_clockwise = 437
     pwm_value_max_backword_anticlockwise = 237
     pwm_value = pwm_value_neutral
