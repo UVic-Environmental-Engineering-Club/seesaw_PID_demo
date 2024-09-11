@@ -1,7 +1,7 @@
 import bluerobotics_navigator as navigator
 from bluerobotics_navigator import PwmChannel
 
-def __init__():
+if __name__ == "__main__":
     print("Set PWM Frea Hz to 1000")
     navigator.set_pwm_freq_hz(1000)
 
