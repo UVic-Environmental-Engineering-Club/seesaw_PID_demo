@@ -27,7 +27,7 @@ class Motor:
 
         navigator.set_pwm_channel_value(PwmChannel.Ch1, pwm_value)
 
-        print(f"pwm_value: {pwm_value}")
+        # print(f"pwm_value: {pwm_value}")
 
     
     def start_up(self):

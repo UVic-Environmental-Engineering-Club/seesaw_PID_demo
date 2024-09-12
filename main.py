@@ -45,9 +45,9 @@ def main():
     global llcs
     global pid_controller
 
-    pid_kp = float(input("Enter the value of Kp: "))
-    pid_ki = float(input("Enter the value of Ki: "))
-    pid_kd = float(input("Enter the value of Kd: "))
+    pid_kp = 0.5
+    pid_ki = 0
+    pid_kd = 0
     pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
 
     llcs.calibrate()
