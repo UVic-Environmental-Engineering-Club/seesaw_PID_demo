@@ -8,6 +8,9 @@ import threading
 
 running = True
 
+hlcs = HLCS.HLCS()
+pid_controller = HLCS.pid.PIDController()
+
 def input_listener():
     global running
 
@@ -19,17 +22,9 @@ def input_listener():
 
 
 def control_loop():
+    global hlcs
     global running
-
-    llcs = LLCS.LLCS()
-    hlcs = HLCS.HLCS()
-    pid_kp = float(input("Enter the value of Kp: "))
-    pid_ki = float(input("Enter the value of Ki: "))
-    pid_kd = float(input("Enter the value of Kd: "))
-    pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
-
-    llcs.calibrate()
-
+    global pid_controller
 
     while running:
         pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
@@ -54,15 +49,29 @@ def control_loop():
         #    pwm_value -= pwm_step
         time.sleep(0.2)
 
-    llcs.onShutdown()
-
 
 
 def main():
+    global hlcs
+    global pid_controller
+
+    llcs = LLCS.LLCS()
+    pid_kp = float(input("Enter the value of Kp: "))
+    pid_ki = float(input("Enter the value of Ki: "))
+    pid_kd = float(input("Enter the value of Kd: "))
+    pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
+
+    llcs.calibrate()
+
     input_thread = threading.Thread(target=input_listener)
     control_loop_thread = threading.Thread(target=control_loop)
     input_thread.start()
     control_loop_thread.start()
+
+    input_thread.join()
+    control_loop_thread.join()
+
+    llcs.onShutdown()
 
 
 if __name__ == "__main__":
