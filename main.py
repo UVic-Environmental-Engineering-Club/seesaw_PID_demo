@@ -20,7 +20,7 @@ def control_loop():
     global pid_controller
 
     while running:
-        num_loops = 100_000
+        num_loops = 100
         ave_pid_output = 0
         ave_current_motor_input = 0
         ave_target_motor_input = 0
