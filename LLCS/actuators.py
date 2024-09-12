@@ -40,6 +40,7 @@ class Motor:
         navigator.set_pwm_channel_value(PwmChannel.Ch1, pwm_value)
 
         self.neopixel_debug(pwm_value)
+        print(f"input: {input} pwm_value: {pwm_value}")
         # print(f"pwm_value: {pwm_value}")
 
 
