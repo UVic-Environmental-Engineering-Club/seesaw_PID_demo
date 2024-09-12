@@ -29,7 +29,6 @@ class Motor:
         elif input == self.pwm_value_neutral:
             navigator.set_neopixel([[0, 0, 0]])
         else:
-            print(f"input: {input} self.pwm_value_neutral: {self.pwm_value_neutral} self.pwm_value_max_anticlockwise: {self.pwm_value_max_anticlockwise}")
             navigator.set_neopixel([[128 - int(HLCS.pid.linear_map(input, self.pwm_value_max_anticlockwise,
                                                              self.pwm_value_neutral, 0, 128)), 0, 0]])
 
@@ -40,7 +39,7 @@ class Motor:
 
         navigator.set_pwm_channel_value(PwmChannel.Ch1, pwm_value)
 
-        self.neopixel_debug(input)
+        self.neopixel_debug(pwm_value)
         # print(f"pwm_value: {pwm_value}")
 
 
