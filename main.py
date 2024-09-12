@@ -5,18 +5,22 @@ import sys
 import time
 import math
 import threading
-import queue
 
-def input_listener(stop_queue):
-    while True:
-        user_input = input()
-        if user_input.lower() == 'q':
-            stop_queue.put(True)
-            break
+running = True
+
+def input_listener():
+    global running
+
+    # while running:
+    user_input = input()
+    running = False
+    # if user_input.lower() == 'q':
+    #     pass
 
 
-def main():
-    print("Hello World")
+def control_loop():
+    global running
+
     llcs = LLCS.LLCS()
     hlcs = HLCS.HLCS()
     pid_kp = float(input("Enter the value of Kp: "))
@@ -26,15 +30,8 @@ def main():
 
     llcs.calibrate()
 
-    stop_queue = queue.Queue()
-    input_thread = threading.Thread(target=input_listener, args=(stop_queue,))
-    input_thread.start()
 
-    running = True
     while running:
-        if not stop_queue.empty():
-            running = False
-
         pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
         print(f"PID output: {pid_output}")
 
@@ -58,6 +55,14 @@ def main():
         time.sleep(0.2)
 
     llcs.onShutdown()
+
+
+
+def main():
+    input_thread = threading.Thread(target=input_listener)
+    control_loop_thread = threading.Thread(target=control_loop)
+    input_thread.start()
+    control_loop_thread.start()
 
 
 if __name__ == "__main__":
