@@ -6,7 +6,7 @@ import HLCS
 class LLCS:
     def __init__(self):
 
-        self.max_motor_input = 0.3
+        self.max_motor_input = 0.1
         self.min_motor_input = 0.1
         self.bump_motor_input = 0.2
         self.motor_input_converge_factor = 0.8
@@ -42,7 +42,8 @@ class LLCS:
         if abs(self.current_motor_input) < self.min_motor_input:
             self.target_motor_input = self.bump_motor_input
 
-        self.current_motor_input = HLCS.pid.lerp(self.current_motor_input, self.target_motor_input, self.motor_input_converge_factor)
+        # self.current_motor_input = HLCS.pid.lerp(self.current_motor_input, self.target_motor_input, self.motor_input_converge_factor)
+        self.currrrent_motor_input = self.target_motor_input
 
         self.target_motor_input = HLCS.pid.clamp_mag(input, self.max_motor_input)
 
