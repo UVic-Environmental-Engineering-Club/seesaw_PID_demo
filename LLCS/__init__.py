@@ -43,9 +43,10 @@ class LLCS:
             self.target_motor_input = self.bump_motor_input
 
         # self.current_motor_input = HLCS.pid.lerp(self.current_motor_input, self.target_motor_input, self.motor_input_converge_factor)
-        self.currrrent_motor_input = self.target_motor_input
 
         self.target_motor_input = HLCS.pid.clamp_mag(input, self.max_motor_input)
+
+        self.current_motor_input = self.target_motor_input
 
         #if abs(self.target_motor_input) < self.min_motor_input:
         #    self.current_motor_input = 0
