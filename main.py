@@ -4,10 +4,15 @@ import LLCS
 import sys
 import time
 import math
-#try:
-#    import bluerobotics_navigator as navigator
-#except ImportError:
-#    raise ImportError("Bluerobotics navigaotor library was not imported\ntry: pip install bluerobotics_navigator")
+import threading
+import queue
+
+def input_listener(stop_queue):
+    while True:
+        user_input = input()
+        if user_input.lower() == 'q':
+            stop_queue.put(True)
+            break
 
 
 def main():
@@ -21,7 +26,14 @@ def main():
 
     llcs.calibrate()
 
-    for i in range(45):
+    stop_queue = queue.Queue()
+    input_thread = threading.Thread(target=input_listener, args=(stop_queue,))
+    input_thread.start()
+
+    running = True
+    while running:
+        if not stop_queue.empty():
+            running = False
 
         pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
         print(f"PID output: {pid_output}")
