@@ -5,11 +5,15 @@ import HLCS
 
 class LLCS:
     def __init__(self):
+
+        self.max_motor_input = 0.7
+
         self.initialize()
         navigator.init()
 
     def initialize(self):
         self.motor = actuators.Motor()
+        self.neo_pixel = actuators.NeoPixel()
         self.motor.start_up()
         print("LLCS initialized")
 
@@ -23,7 +27,11 @@ class LLCS:
         return sensors.get_pitch()
 
     def actuation(self, input):
-        self.motor.actuation(HLCS.pid.clamp(input, -1, 1))
+
+        limited_input = HLCS.pid.clamp_mag(input, self.max_motor_input)
+
+        self.neo_pixel.actuate(limited_input)
+        self.motor.actuate(limited_input)
 
     def onShutdown(self):
         self.motor.shut_down()
