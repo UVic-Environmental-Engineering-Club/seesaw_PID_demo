@@ -51,9 +51,6 @@ class LLCS:
         if abs(self.target_motor_input) < self.min_motor_input:
             self.current_motor_input = 0
 
-        print(f"current motor input: {self.current_motor_input}")
-        print(f"target motor input: {self.target_motor_input}")
-
         self.actuate()
 
 

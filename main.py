@@ -12,15 +12,6 @@ hlcs = HLCS.HLCS()
 llcs = LLCS.LLCS()
 pid_controller = HLCS.pid.PIDController()
 
-def input_listener():
-    global running
-
-    # while running:
-    user_input = input()
-    running = False
-    # if user_input.lower() == 'q':
-    #     pass
-
 
 def control_loop():
     global hlcs
@@ -29,12 +20,23 @@ def control_loop():
     global pid_controller
 
     while running:
-        pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
-        print(f"PID output: {pid_output}")
+        num_loops = 100_000
+        ave_pid_output = 0
+        ave_current_motor_input = 0
+        ave_target_motor_input = 0
 
+        for _ in range(num_loops):
+            pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
+            ave_pid_output += pid_output
+            ave_current_motor_input += llcs.current_motor_input
+            ave_target_motor_input += llcs.target_motor_input
+
+            llcs.update(pid_output)
+
+        print(f"ave pid output: {ave_pid_output / num_loops}")
+        print(f"ave current motor input: {ave_current_motor_input / num_loops}")
+        print(f"ave target motor input: {ave_target_motor_input / num_loops}")
         llcs.read_and_print_angles()
-        llcs.update(pid_output)
-        time.sleep(0.2)
 
 
 
@@ -50,15 +52,10 @@ def main():
 
     llcs.calibrate()
 
-    input_thread = threading.Thread(target=input_listener)
-    control_loop_thread = threading.Thread(target=control_loop)
-    input_thread.start()
-    control_loop_thread.start()
-
-    input_thread.join()
-    control_loop_thread.join()
-
-    llcs.onShutdown()
+    try:
+        control_loop()
+    finally:
+        llcs.onShutdown()
 
 
 if __name__ == "__main__":
