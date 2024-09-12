@@ -22,9 +22,16 @@ def clamp_mag(val: float, max_mag: float) -> float:
 
 
 
-def lerp(val: float, input_min: float, input_max: float, output_min: float, output_max: float) -> float:
+def linear_map(val: float, input_min: float, input_max: float, output_min: float, output_max: float) -> float:
 
     return output_min + ((val - input_min) / (input_max - input_min)) * (output_max - output_min)
+
+
+
+def lerp(start: float, end: float, proportion: float) -> float:
+
+    return ((1 - proportion) * start) + (proportion * end)
+
 
 
 def clamp(val: float, min_output: float, max_output: float) -> float:

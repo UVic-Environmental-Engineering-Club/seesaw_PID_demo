@@ -23,7 +23,7 @@ class Motor:
 
     def actuate(self, input) -> None:
 
-        pwm_value = int(HLCS.pid.lerp(input, -1, 1, self.pwm_value_max_anticlockwise, self.pwm_value_max_clockwise))
+        pwm_value = int(HLCS.pid.linear_map(input, -1, 1, self.pwm_value_max_anticlockwise, self.pwm_value_max_clockwise))
 
         navigator.set_pwm_channel_value(PwmChannel.Ch1, pwm_value)
 
@@ -56,8 +56,8 @@ class NeoPixel():
     def actuate(self, input):
 
         if input > 0:
-            navigator.set_neopixel([[0, int(HLCS.pid.lerp(input, 0, 1, 0, 128)), 0]])
+            navigator.set_neopixel([[0, int(HLCS.pid.linear_map(input, 0, 1, 0, 128)), 0]])
         elif input == 0:
             navigator.set_neopixel([[0, 0, 0]])
         else:
-            navigator.set_neopixel([[int(HLCS.pid.lerp(input, -1, 1, 128, 0)), 0, 0]])
+            navigator.set_neopixel([[int(HLCS.pid.linear_map(input, -1, 0, 128, 0)), 0, 0]])

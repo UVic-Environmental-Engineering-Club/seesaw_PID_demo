@@ -9,6 +9,7 @@ import threading
 running = True
 
 hlcs = HLCS.HLCS()
+llcs = LLCS.LLCS()
 pid_controller = HLCS.pid.PIDController()
 
 def input_listener():
@@ -23,6 +24,7 @@ def input_listener():
 
 def control_loop():
     global hlcs
+    global llcs
     global running
     global pid_controller
 
@@ -38,7 +40,7 @@ def control_loop():
         #     pwm_value = max(pwm_value_max_backword_anticlockwise, pwm_value_neutral + int((pwm_value_neutral - pwm_value_max_backword_anticlockwise) * (pid_output / math.pi)))
 
         llcs.read_and_print_angles()
-        llcs.actuation(pid_output)
+        llcs.update(pid_output)
         #if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
         #    pwm_toggle = False
         #elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
@@ -53,9 +55,9 @@ def control_loop():
 
 def main():
     global hlcs
+    global llcs
     global pid_controller
 
-    llcs = LLCS.LLCS()
     pid_kp = float(input("Enter the value of Kp: "))
     pid_ki = float(input("Enter the value of Ki: "))
     pid_kd = float(input("Enter the value of Kd: "))
