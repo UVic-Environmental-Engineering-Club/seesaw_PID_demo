@@ -45,9 +45,9 @@ def main():
     global llcs
     global pid_controller
 
-    pid_kp = 2
+    pid_kp = 1
     pid_ki = 0
-    pid_kd = 0
+    pid_kd = 1
     pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
 
     llcs.calibrate()
