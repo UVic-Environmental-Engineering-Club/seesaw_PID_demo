@@ -6,9 +6,9 @@ import HLCS
 class LLCS:
     def __init__(self):
 
-        self.max_motor_input = 0.1
-        self.min_motor_input = 0.1
-        self.bump_motor_input = 0.2
+        self.max_motor_input = 0.2
+        self.min_motor_input = 0.05
+        self.bump_motor_input = 0.1
         self.motor_input_converge_factor = 0.8
 
         self.current_motor_input = 0
@@ -33,20 +33,18 @@ class LLCS:
 
     def actuate(self):
 
-        self.motor.actuate(self.current_motor_input)
+        self.motor.actuate(self.target_motor_input)
 
 
     def update(self, input):
 
         # We need to "bump" the motor to overcome static friction
-        if abs(self.current_motor_input) < self.min_motor_input:
+        if abs(input) < self.min_motor_input:
             self.target_motor_input = self.bump_motor_input
 
         # self.current_motor_input = HLCS.pid.lerp(self.current_motor_input, self.target_motor_input, self.motor_input_converge_factor)
 
         self.target_motor_input = HLCS.pid.clamp_mag(input, self.max_motor_input)
-
-        self.current_motor_input = self.target_motor_input
 
         #if abs(self.target_motor_input) < self.min_motor_input:
         #    self.current_motor_input = 0

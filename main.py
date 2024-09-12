@@ -33,9 +33,9 @@ def control_loop():
 
             llcs.update(pid_output)
 
-        print(f"ave pid output: {ave_pid_output / num_loops}")
-        print(f"ave current motor input: {ave_current_motor_input / num_loops}")
-        print(f"ave target motor input: {ave_target_motor_input / num_loops}")
+        # print(f"ave pid output: {ave_pid_output / num_loops}")
+        # print(f"ave current motor input: {ave_current_motor_input / num_loops}")
+        # print(f"ave target motor input: {ave_target_motor_input / num_loops}")
         llcs.read_and_print_angles()
 
 
@@ -47,7 +47,7 @@ def main():
 
     pid_kp = 1
     pid_ki = 0
-    pid_kd = 1
+    pid_kd = 0.1
     pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
 
     llcs.calibrate()
