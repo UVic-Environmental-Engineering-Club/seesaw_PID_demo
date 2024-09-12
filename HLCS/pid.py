@@ -11,12 +11,13 @@ def clamp_mag(val: float, max_mag: float) -> float:
         float: The clamped value.
 
     """
-    
-    if val > max_mag:
-        return max_mag
+    if val > 0:
+        if val > max_mag:
+            return max_mag
 
-    if val < -max_mag:
-        return -max_mag
+    if val < 0:
+        if val < -max_mag:
+            return -max_mag
 
     return val
 
