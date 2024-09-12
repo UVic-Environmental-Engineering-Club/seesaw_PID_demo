@@ -46,8 +46,8 @@ class LLCS:
 
         self.current_motor_input = HLCS.pid.lerp(self.current_motor_input, self.target_motor_input, self.motor_input_converge_factor)
 
-        if abs(self.target_motor_input) < self.min_motor_input:
-            self.current_motor_input = 0
+        #if abs(self.target_motor_input) < self.min_motor_input:
+        #    self.current_motor_input = 0
 
         self.actuate()
 
