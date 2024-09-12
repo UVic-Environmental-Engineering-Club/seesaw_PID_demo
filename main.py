@@ -32,23 +32,8 @@ def control_loop():
         pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
         print(f"PID output: {pid_output}")
 
-        # if pid_output >= 0:
-        #     pwm_value = min(pwm_value_max_forward_clockwise, pwm_value_neutral + int((pwm_value_max_forward_clockwise - pwm_value_neutral) * (pid_output / math.pi)))
-        # elif pid_output == 0:
-        #     pwm_value = pwm_value_neutral
-        # else:
-        #     pwm_value = max(pwm_value_max_backword_anticlockwise, pwm_value_neutral + int((pwm_value_neutral - pwm_value_max_backword_anticlockwise) * (pid_output / math.pi)))
-
         llcs.read_and_print_angles()
         llcs.update(pid_output)
-        #if (pwm_value + pwm_step >= pwm_value_max_forward_clockwise):
-        #    pwm_toggle = False
-        #elif (pwm_value - pwm_step <= pwm_value_max_backword_anticlockwise):
-        #    pwm_toggle = True
-        #if pwm_toggle:
-        #    pwm_value += pwm_step
-        #else:
-        #    pwm_value -= pwm_step
         time.sleep(0.2)
 
 
