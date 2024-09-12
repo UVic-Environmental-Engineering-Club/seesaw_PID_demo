@@ -25,13 +25,14 @@ def control_loop():
         ave_current_motor_input = 0
         ave_target_motor_input = 0
 
-        for _ in range(num_loops):
-            pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
-            ave_pid_output += pid_output
-            ave_current_motor_input += llcs.current_motor_input
-            ave_target_motor_input += llcs.target_motor_input
+        pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
 
-            llcs.update(pid_output)
+        #for _ in range(num_loops):
+        #    ave_pid_output += pid_output
+        #    ave_current_motor_input += llcs.current_motor_input
+        #    ave_target_motor_input += llcs.target_motor_input
+
+        llcs.update(pid_output)
 
         # print(f"ave pid output: {ave_pid_output / num_loops}")
         # print(f"ave current motor input: {ave_current_motor_input / num_loops}")
