@@ -19,7 +19,6 @@ class LLCS:
 
     def initialize(self):
         self.motor = actuators.Motor()
-        self.neo_pixel = actuators.NeoPixel()
         self.motor.start_up()
         print("LLCS initialized")
 
@@ -34,7 +33,6 @@ class LLCS:
 
     def actuate(self):
 
-        self.neo_pixel.actuate(self.current_motor_input)
         self.motor.actuate(self.current_motor_input)
 
 
