@@ -45,7 +45,7 @@ def main():
     global hlcs
     global llcs
     global pid_controller
-    hlcs.target = math.pi / 4
+    hlcs.target = input("Enter target angle in radian: ")
 
     pid_kp = 1
     pid_ki = 0.1
