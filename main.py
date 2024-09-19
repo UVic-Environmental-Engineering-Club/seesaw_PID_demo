@@ -52,6 +52,7 @@ def main():
         if hlcsTarget < 0 or hlcsTarget > 180:
             print("Invalid angle. Please enter an angle between 0 and 180 degrees.")
 
+    hlcs.target = hlcsTarget
 
     pid_kp = 1
     pid_ki = 0.1
