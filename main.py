@@ -46,7 +46,8 @@ def main():
     global llcs
     global pid_controller
     hlcsTarget = 0
-    while hlcsTarget >= 0 and hlcsTarget <= 180:
+    hlcsTarget = float(input("Enter target angle in degrees: ")) * math.pi / 180
+    while hlcsTarget < 0 or hlcsTarget > 180:
         hlcsTarget = float(input("Enter target angle in degrees: ")) * math.pi / 180
         if hlcsTarget < 0 or hlcsTarget > 180:
             print("Invalid angle. Please enter an angle between 0 and 180 degrees.")
