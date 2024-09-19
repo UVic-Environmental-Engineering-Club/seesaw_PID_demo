@@ -7,7 +7,7 @@ class LLCS:
     def __init__(self):
 
         self.max_motor_input = 0.5
-        self.min_motor_input = 0.005
+        self.min_motor_input = 0.01
         self.bump_motor_input = 0.05
         self.motor_input_converge_factor = 0.8
 
