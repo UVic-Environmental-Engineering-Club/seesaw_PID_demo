@@ -2,6 +2,7 @@
 import sys
 import time
 import math
+import numpy as np
 
 import bluerobotics_navigator as navigator
 
@@ -77,26 +78,36 @@ def calibrate():
 
     print("Calibrating, keep still")
 
-    gyro_calibration_x = 0.0
-    gyro_calibration_y = 0.0
-    gyro_calibration_z = 0.0
+    num_iter = 10_000
+    readings = []
 
-    i = 0
-    num_iter = 5_000
-    while i < num_iter:
+    for _ in range(num_iter):
         ang_vel = navigator.read_gyro()
-        gyro_calibration_x += ang_vel.x
-        gyro_calibration_y += ang_vel.y
-        gyro_calibration_z += ang_vel.z
-        i += 1
+        readings.append((ang_vel.x, ang_vel.y, ang_vel.z))
+        time.sleep(0.001)  # Add a small delay to ensure stability
 
-    gyro_calibration_x /= float(num_iter)
-    gyro_calibration_y /= float(num_iter)
-    gyro_calibration_z /= float(num_iter)
+    # Convert to numpy array for easier manipulation
+    readings = np.array(readings)
 
+    # Calculate mean and standard deviation
+    mean = np.mean(readings, axis=0)
+    std_dev = np.std(readings, axis=0)
+
+    # Discard outliers (values more than 2 standard deviations from the mean)
+    filtered_readings = readings[
+        (np.abs(readings - mean) < 2 * std_dev).all(axis=1)
+    ]
+
+    # Calculate the average of the filtered readings
+    gyro_calibration_x, gyro_calibration_y, gyro_calibration_z = np.mean(filtered_readings, axis=0)
     gyro_calibration = (gyro_calibration_x, gyro_calibration_y, gyro_calibration_z)
 
+    # Calculate variance
+    variance = np.var(filtered_readings, axis=0)
+
     input(f"Done still calibration, values: ({gyro_calibration[0]}, {gyro_calibration[1]}, {gyro_calibration[2]}). Press enter to continue")
+
+    return variance
 
 
 
@@ -106,14 +117,24 @@ def main():
     global int_yaw
     global prev_time
     global gyro_calibration
+    global kalman_filter_pitch
+    global kalman_filter_roll
 
     navigator.init()
 
     (int_pitch, int_roll, int_yaw) = LLCS.sensors.get_pitch_roll_yaw()
 
-    calibrate()
+    variance = calibrate()
     
     prev_time = time.time()
+
+    # Use the variance to set the Kalman filter parameters
+    process_variance = 1e-5  # This can be tuned further
+    measurement_variance_pitch = variance[1]  # Variance of y-axis for pitch
+    measurement_variance_roll = variance[0]  # Variance of x-axis for roll
+
+    kalman_filter_pitch = KalmanFilter(process_variance, measurement_variance_pitch, measurement_variance_pitch)
+    kalman_filter_roll = KalmanFilter(process_variance, measurement_variance_roll, measurement_variance_roll)
 
 
     try:
