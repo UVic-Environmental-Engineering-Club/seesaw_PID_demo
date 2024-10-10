@@ -26,6 +26,10 @@ def testing_loop():
 
     (pitch, roll, yaw) = LLCS.sensors.get_pitch_roll_yaw()
     ang_vel = navigator.read_gyro()
+
+    if math.isnan(ang_vel.x) or math.isnan(ang_vel.y) or math.isnan(ang_vel.z) or math.isnan(pitch) or math.isnan(roll) or math.isnan(yaw):
+        return
+
     int_pitch += ang_vel.y * time_delta
     int_roll += ang_vel.x * time_delta
     int_yaw += -ang_vel.z * time_delta
