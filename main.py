@@ -53,17 +53,23 @@ def calibrate():
 
     print("Calibrating, keep still")
 
+    gyro_calibration_x = 0.0
+    gyro_calibration_y = 0.0
+    gyro_calibration_z = 0.0
+
     i = 0
     num_iter = 50_000
     while i < num_iter:
         ang_vel = navigator.read_gyro()
-        gyro_calibration[0] += ang_vel.x
-        gyro_calibration[1] += ang_vel.y
-        gyro_calibration[2] += ang_vel.z
+        gyro_calibration_x += ang_vel.x
+        gyro_calibration_y += ang_vel.y
+        gyro_calibration_z += ang_vel.z
 
-    gyro_calibration[0] /= float(num_iter)
-    gyro_calibration[1] /= float(num_iter)
-    gyro_calibration[2] /= float(num_iter)
+    gyro_calibration_x /= float(num_iter)
+    gyro_calibration_y /= float(num_iter)
+    gyro_calibration_z /= float(num_iter)
+
+    gyro_calibration = (gyro_calibration_x, gyro_calibration_y, gyro_calibration_z)
 
     input(f"Done calibration, values: ({gyro_calibration[0]}, {gyro_calibration[1]}, {gyro_calibration[2]}). Press enter to continue")
 
