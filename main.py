@@ -69,6 +69,7 @@ def testing_loop(print_info = False):
     roll_error = roll - int_roll
     yaw_error = yaw - int_yaw
 
+    LLCS.externalSensors.get_pitch_roll_yaw()
     print(f"Last Delta: {time_delta:1.7f}, Error: ({pitch_error:1.5f} ({(15.9154943092 * pitch_error):3.2f}%), {roll_error:1.5f} ({(15.9154943092 * roll_error):3.2f}%)), Integrated: ({int_pitch:1.5f}, {int_roll:1.5f}), Actual: ({pitch:1.5f}, {roll:1.5f})")
 
 
