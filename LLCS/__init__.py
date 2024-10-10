@@ -1,6 +1,7 @@
 import bluerobotics_navigator as navigator
 from . import sensors
 from . import actuators
+from . import externalSensors
 import HLCS
 
 class LLCS:
