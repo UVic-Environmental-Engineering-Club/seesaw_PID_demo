@@ -15,7 +15,7 @@ int_yaw = 0.0
 prev_time = 0.0
 
 
-def testing_loop():
+def testing_loop(print_info = False):
     global int_pitch
     global int_roll
     global int_yaw
@@ -34,6 +34,9 @@ def testing_loop():
     int_roll += ang_vel.x * time_delta
     int_yaw += -ang_vel.z * time_delta
 
+    if not print_info:
+        return
+
     pitch_error = pitch - int_pitch
     roll_error = roll - int_roll
     yaw_error = yaw - int_yaw
@@ -41,7 +44,7 @@ def testing_loop():
     prev_time = next_time
 
     
-    print(f"Delta: {time_delta:10.7f}, Error: ({pitch_error:10.5f}, {roll_error:10.5f}), Integrated: ({int_pitch:10.5f}, {int_roll:10.5f}), Actual: ({pitch:10.5f}, {roll:10.5f})")
+    print(f"Delta: {time_delta:1.7f}, Error: ({pitch_error:1.5f}, {roll_error:1.5f}), Integrated: ({int_pitch:1.5f}, {int_roll:1.5f}), Actual: ({pitch:1.5f}, {roll:1.5f})")
 
 
 
@@ -60,8 +63,9 @@ def main():
 
 
     try:
+        i = 0
         while True:
-            testing_loop()
+            testing_loop(i % 100 == 0)
     finally:
         print("Done")
 

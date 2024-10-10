@@ -65,6 +65,10 @@ def get_pitch_roll_yaw() -> tuple[float, float, float]:
     # Normalize the acceleration vector
     acc = np.array([nfc_acc.x, nfc_acc.y, nfc_acc.z])
     acc_mag = np.linalg.norm(acc)
+
+    if acc_mag == 0.0:
+        return (0.0, 0.0, 0.0)
+
     acc_dir = acc / acc_mag
     pitch = math.atan2(-acc_dir[0], acc_dir[2])
     roll = math.atan2(acc_dir[1], acc_dir[2])
