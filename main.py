@@ -26,7 +26,7 @@ def testing_loop(print_info = False):
     ang_vel = navigator.read_gyro()
 
     if math.isnan(ang_vel.x) or math.isnan(ang_vel.y) or math.isnan(ang_vel.z) or math.isnan(pitch) or math.isnan(roll) or math.isnan(yaw)\
-        or pitch == 0.0 or roll == 0.0 or yaw == 0.0:
+        or (pitch == 0.0 and roll == 0.0 and yaw == 0.0):
         return
 
     next_time = time.time()
@@ -81,8 +81,8 @@ def main():
     navigator.init()
 
     (int_pitch, int_roll, int_yaw) = LLCS.sensors.get_pitch_roll_yaw()
-    ang_vel = navigator.read_gyro()
-    gyro_calibration = (ang_vel.x, ang_vel.y, ang_vel.z)
+
+    calibrate()
     
     prev_time = time.time()
 
