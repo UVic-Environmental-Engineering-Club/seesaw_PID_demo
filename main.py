@@ -48,6 +48,28 @@ def testing_loop(print_info = False):
 
 
 
+def calibrate():
+    global gyro_calibration
+
+    print("Calibrating, keep still")
+
+    i = 0
+    num_iter = 50_000
+    while i < num_iter:
+        ang_vel = navigator.read_gyro()
+        gyro_calibration[0] += ang_vel.x
+        gyro_calibration[1] += ang_vel.y
+        gyro_calibration[2] += ang_vel.z
+
+    gyro_calibration[0] /= float(num_iter)
+    gyro_calibration[1] /= float(num_iter)
+    gyro_calibration[2] /= float(num_iter)
+
+    input(f"Done calibration, values: ({gyro_calibration[0]}, {gyro_calibration[1]}, {gyro_calibration[2]}). Press enter to continue")
+
+
+
+
 
 def main():
     global int_pitch
