@@ -27,7 +27,7 @@ def testing_loop():
     global yaw_vel
     global prev_time
 
-    next_time = time.time_ns
+    next_time = time.time_ns()
     time_delta = (next_time - prev_time) / 1_000_000_000
 
     (pitch, roll, yaw) = LLCS.sensors.get_pitch_roll_yaw()
@@ -39,10 +39,14 @@ def testing_loop():
     int_roll += roll_vel * time_delta
     int_yaw += yaw_vel * time_delta
 
+    pitch_error = pitch - int_pitch
+    roll_error = roll - int_roll
+    yaw_error = yaw - yaw_error
+
     prev_time = next_time
 
     
-    print(f"Time: {next_time}, Delta: {time_delta:10.5f}, Integrated: ({int_pitch:10.5f}, {int_roll:10.5f}, {int_yaw:10.5f}), Actual: ({pitch:10.5f}, {roll:10.5f}, {yaw:10.5f})")
+    print(f"Delta: {time_delta:10.7f}, Error: ({pitch_error:10.5f}, {roll_error:10.5f}), Integrated: ({int_pitch:10.5f}, {int_roll:10.5f}), Actual: ({pitch:10.5f}, {roll:10.5f})")
 
 
 
@@ -57,11 +61,12 @@ def main():
 
     (int_pitch, int_roll, int_yaw) = LLCS.sensors.get_pitch_roll_yaw()
     
-    prev_time = time.time_ns
+    prev_time = time.time_ns()
 
 
     try:
-        testing_loop()
+        while True:
+            testing_loop()
     finally:
         print("Done")
 
