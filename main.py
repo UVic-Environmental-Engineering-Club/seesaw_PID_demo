@@ -68,7 +68,7 @@ def testing_loop(print_info = False):
     roll_error = roll - int_roll
     yaw_error = yaw - int_yaw
 
-    print(f"Last Delta: {time_delta:1.7f}, Error: ({pitch_error:1.5f}, {roll_error:1.5f}), Integrated: ({int_pitch:1.5f}, {int_roll:1.5f}), Actual: ({pitch:1.5f}, {roll:1.5f})")
+    print(f"Last Delta: {time_delta:1.7f}, Error: ({pitch_error:1.5f} ({(100.0 * pitch_error / pitch):3.2f}%), {roll_error:1.5f} ({(100.0 * roll_error / roll):3.2f}%)), Integrated: ({int_pitch:1.5f}, {int_roll:1.5f}), Actual: ({pitch:1.5f}, {roll:1.5f})")
 
 
 
@@ -88,6 +88,7 @@ def calibrate():
         gyro_calibration_x += ang_vel.x
         gyro_calibration_y += ang_vel.y
         gyro_calibration_z += ang_vel.z
+        i += 1
 
     gyro_calibration_x /= float(num_iter)
     gyro_calibration_y /= float(num_iter)
