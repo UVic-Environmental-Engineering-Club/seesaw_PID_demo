@@ -12,9 +12,6 @@ import LLCS
 int_pitch = 0.0
 int_roll = 0.0
 int_yaw = 0.0
-pitch_vel = 0.0
-roll_vel = 0.0
-yaw_vel = 0.0
 prev_time = 0.0
 
 
@@ -22,22 +19,16 @@ def testing_loop():
     global int_pitch
     global int_roll
     global int_yaw
-    global pitch_vel
-    global roll_vel
-    global yaw_vel
     global prev_time
 
     next_time = time.time_ns()
     time_delta = (next_time - prev_time) / 1_000_000_000
 
     (pitch, roll, yaw) = LLCS.sensors.get_pitch_roll_yaw()
-    ang_acc = navigator.read_gyro()
-    pitch_vel += ang_acc.y * time_delta
-    roll_vel += ang_acc.x * time_delta
-    yaw_vel += -ang_acc.z * time_delta
-    int_pitch += pitch_vel * time_delta
-    int_roll += roll_vel * time_delta
-    int_yaw += yaw_vel * time_delta
+    ang_vel = navigator.read_gyro()
+    int_pitch += ang_vel.y * time_delta
+    int_roll += ang_vel.x * time_delta
+    int_yaw += -ang_vel.z * time_delta
 
     pitch_error = pitch - int_pitch
     roll_error = roll - int_roll
