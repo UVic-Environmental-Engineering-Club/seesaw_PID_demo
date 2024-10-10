@@ -32,7 +32,7 @@ def testing_loop():
 
     pitch_error = pitch - int_pitch
     roll_error = roll - int_roll
-    yaw_error = yaw - yaw_error
+    yaw_error = yaw - int_yaw
 
     prev_time = next_time
 
