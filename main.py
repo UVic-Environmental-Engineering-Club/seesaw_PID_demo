@@ -1,70 +1,70 @@
 
-import HLCS
-import LLCS
 import sys
 import time
 import math
-import threading
 
-running = True
+import bluerobotics_navigator as navigator
 
-hlcs = HLCS.HLCS()
-llcs = LLCS.LLCS()
-pid_controller = HLCS.pid.PIDController()
+import LLCS
 
 
-def control_loop():
-    global hlcs
-    global llcs
-    global running
-    global pid_controller
 
-    while running:
-        num_loops = 100
-        ave_pid_output = 0
-        ave_current_motor_input = 0
-        ave_target_motor_input = 0
+int_pitch = 0.0
+int_roll = 0.0
+int_yaw = 0.0
+pitch_vel = 0.0
+roll_vel = 0.0
+yaw_vel = 0.0
+prev_time = 0.0
 
-        pid_output = pid_controller.update(hlcs.target, llcs.get_pitch(), time.time())
 
-        #for _ in range(num_loops):
-        #    ave_pid_output += pid_output
-        #    ave_current_motor_input += llcs.current_motor_input
-        #    ave_target_motor_input += llcs.target_motor_input
+def testing_loop():
+    global int_pitch
+    global int_roll
+    global int_yaw
+    global pitch_vel
+    global roll_vel
+    global yaw_vel
+    global prev_time
 
-        llcs.update(- pid_output)
+    next_time = time.time_ns
+    time_delta = (next_time - prev_time) / 1_000_000_000
 
-        # print(f"ave pid output: {ave_pid_output / num_loops}")
-        # print(f"ave current motor input: {ave_current_motor_input / num_loops}")
-        # print(f"ave target motor input: {ave_target_motor_input / num_loops}")
-        llcs.read_and_print_angles()
+    (pitch, roll, yaw) = LLCS.sensors.get_pitch_roll_yaw()
+    ang_acc = navigator.read_gyro()
+    pitch_vel += ang_acc.y * time_delta
+    roll_vel += ang_acc.x * time_delta
+    yaw_vel += -ang_acc.z * time_delta
+    int_pitch += pitch_vel * time_delta
+    int_roll += roll_vel * time_delta
+    int_yaw += yaw_vel * time_delta
+
+    prev_time = next_time
+
+    
+    print(f"Time: {next_time}, Delta: {time_delta:10.5f}, Integrated: ({int_pitch:10.5f}, {int_roll:10.5f}, {int_yaw:10.5f}), Actual: ({pitch:10.5f}, {roll:10.5f}, {yaw:10.5f})")
+
 
 
 
 def main():
-    global hlcs
-    global llcs
-    global pid_controller
-    hlcsTarget = 0
-    hlcsTarget = float(input("Enter target angle in degrees: ")) * math.pi / 180
-    while hlcsTarget < 0 or hlcsTarget > 180:
-        hlcsTarget = float(input("Enter target angle in degrees: ")) * math.pi / 180
-        if hlcsTarget < 0 or hlcsTarget > 180:
-            print("Invalid angle. Please enter an angle between 0 and 180 degrees.")
+    global int_pitch
+    global int_roll
+    global int_yaw
+    global prev_time
 
-    hlcs.target = hlcsTarget
+    navigator.init()
 
-    pid_kp = 1
-    pid_ki = 0.1
-    pid_kd = 0
-    pid_controller = HLCS.pid.PIDController(kp = pid_kp, ki = pid_ki, kd = pid_kd, integral_limit = 1, output_limit = 1)
+    (int_pitch, int_roll, int_yaw) = LLCS.sensors.get_pitch_roll_yaw()
+    
+    prev_time = time.time_ns
 
-    llcs.calibrate()
 
     try:
-        control_loop()
+        testing_loop()
     finally:
-        llcs.onShutdown()
+        print("Done")
+
 
 
 if __name__ == "__main__":
