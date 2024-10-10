@@ -7,6 +7,24 @@ import bluerobotics_navigator as navigator
 
 import LLCS
 
+class KalmanFilter:
+    def __init__(self, process_variance, measurement_variance, estimated_measurement_variance):
+        self.process_variance = process_variance
+        self.measurement_variance = measurement_variance
+        self.estimated_measurement_variance = estimated_measurement_variance
+        self.posteri_estimate = 0.0
+        self.posteri_error_estimate = 1.0
+
+    def update(self, measurement):
+        priori_estimate = self.posteri_estimate
+        priori_error_estimate = self.posteri_error_estimate + self.process_variance
+
+        blending_factor = priori_error_estimate / (priori_error_estimate + self.measurement_variance)
+        self.posteri_estimate = priori_estimate + blending_factor * (measurement - priori_estimate)
+        self.posteri_error_estimate = (1 - blending_factor) * priori_error_estimate
+
+        return self.posteri_estimate
+
 
 
 int_pitch = 0.0
@@ -14,6 +32,8 @@ int_roll = 0.0
 int_yaw = 0.0
 gyro_calibration = (0.0, 0.0, 0.0)
 prev_time = 0.0
+kalman_filter_pitch = KalmanFilter(process_variance=1e-5, measurement_variance=1e-1, estimated_measurement_variance=1e-1)
+kalman_filter_roll = KalmanFilter(process_variance=1e-5, measurement_variance=1e-1, estimated_measurement_variance=1e-1)
 
 
 def testing_loop(print_info = False):
@@ -33,9 +53,13 @@ def testing_loop(print_info = False):
     time_delta = (next_time - prev_time)# / 1_000_000_000
     prev_time = next_time
 
-    int_pitch += (ang_vel.y - gyro_calibration[0]) * time_delta
-    int_roll += (ang_vel.x - gyro_calibration[1]) * time_delta
+    int_pitch += (ang_vel.y - gyro_calibration[1]) * time_delta
+    int_roll += (ang_vel.x - gyro_calibration[0]) * time_delta
     int_yaw += -(ang_vel.z - gyro_calibration[2]) * time_delta
+
+    # Update Kalman filters
+    filtered_pitch = kalman_filter_pitch.update(int_pitch)
+    filtered_roll = kalman_filter_roll.update(int_roll)
 
     if not print_info:
         return
@@ -58,7 +82,7 @@ def calibrate():
     gyro_calibration_z = 0.0
 
     i = 0
-    num_iter = 50_000
+    num_iter = 5_000
     while i < num_iter:
         ang_vel = navigator.read_gyro()
         gyro_calibration_x += ang_vel.x
@@ -71,9 +95,7 @@ def calibrate():
 
     gyro_calibration = (gyro_calibration_x, gyro_calibration_y, gyro_calibration_z)
 
-    input(f"Done calibration, values: ({gyro_calibration[0]}, {gyro_calibration[1]}, {gyro_calibration[2]}). Press enter to continue")
-
-
+    input(f"Done still calibration, values: ({gyro_calibration[0]}, {gyro_calibration[1]}, {gyro_calibration[2]}). Press enter to continue")
 
 
 
